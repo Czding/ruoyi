@@ -1,0 +1,239 @@
+
+
+/*鼠标移上显示手形*/
+
+button {
+  cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+
+/*清除浮动*/
+
+.clearfix {
+  zoom: 1;
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+/*连续英文、数字换行*/
+
+.wordwrap {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+
+/*单行文字超出显示省略号*/
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+span {
+  display: inline-block;
+}
+
+
+/*共用隐藏*/
+
+.hide {
+  display: none;
+}
+
+
+/*防止vue代码直接显示*/
+
+[v-cloak] {
+  display: none;
+}
+
+// 宽
+@for $i from 0 through 200 {
+  .w#{2 * $i} {
+    width: 2px * $i
+  }
+}
+
+// 高
+@for $i from 0 through 200 {
+  .h#{2 * $i} {
+    width: 1px * $i
+  }
+}
+
+// 外边距
+@for $i from 0 through 100 {
+  .ml#{$i} {
+    margin-left: 0px + $i
+  }
+  .mr#{$i} {
+    margin-right: 0px + $i
+  }
+  .mt#{$i} {
+    margin-top: 0px + $i
+  }
+  .mb#{$i} {
+    margin-bottom: 0px + $i
+  }
+}
+
+// 内边距
+@for $i from 0 through 100 {
+  .pl#{$i} {
+    padding-left: 0px + $i
+  }
+  .pr#{$i} {
+    padding-right: 0px + $i
+  }
+  .pt#{$i} {
+    padding-top: 0px + $i
+  }
+  .pb#{$i} {
+    padding-bottom: 0px + $i
+  }
+}
+
+.wf {
+  width: 100%;
+}
+
+.hf {
+  height: 100%;
+}
+
+// 浮动
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.al {
+  text-align: left;
+}
+
+.ac {
+  text-align: center;
+}
+
+.ar {
+  text-align: right;
+}
+
+// 行内块级元素
+.inline {
+  display: inline-block;
+}
+
+// flex
+.flex {
+  display: flex;
+}
+.flex-1 {
+  flex: 1;
+  overflow: hidden;
+}
+.flex-1-auto {
+  flex: 1;
+  overflow: auto;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-items-center {
+  display: flex;
+  align-items: center;
+}
+.flex-content-between {
+  display: flex;
+  justify-content: space-between;
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.lt {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.st {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.mt {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.inline-form-item {
+  display: flex;
+  .el-form-item__content {
+    flex: 1;
+  }
+}
+
+.primary-color {
+  color: #3786FD;
+}
+.danger-color {
+  color: #FF5B63;
+}
+
+// 伪造文字按钮
+.primary-text-btn {
+  color: #3786FD;
+  cursor: pointer;
+}
+.primary-text-btn:hover {
+  color: #5f9efd;
+  text-decoration: underline;
+}
+.danger-text-btn {
+  color: #FF5B63;
+  cursor: pointer;
+}
+.danger-text-btn:hover {
+  color: #f78989;
+  text-decoration: underline;
+}
+
+.primary-text-btn.disabled, .danger-text-btn.disabled {
+  pointer-events: none;
+  color: #b6b4b4;
+  cursor: not-allowed;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
