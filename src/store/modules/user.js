@@ -49,8 +49,8 @@ const user = {
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
         login(username, password, code, uuid).then(res => {
-          setToken(res.token)
-          commit('SET_TOKEN', res.token)
+          setToken(res.extra.token)
+          commit('SET_TOKEN', res.extra.token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -62,14 +62,14 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo().then(res => {
-          const user = res.user
+          const user = res.extra.user
           let avatar = user.avatar || ""
           if (!isHttp(avatar)) {
             avatar = (isEmpty(avatar)) ? defAva : process.env.VUE_APP_BASE_API + avatar
           }
-          if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', res.roles)
-            commit('SET_PERMISSIONS', res.permissions)
+          if (res.extra.roles && res.extra.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', res.extra.roles)
+            commit('SET_PERMISSIONS', res.extra.permissions)
           } else {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
@@ -78,18 +78,18 @@ const user = {
           commit('SET_NICK_NAME', user.nickName)
           commit('SET_AVATAR', avatar)
           /* 初始密码提示 */
-          if(res.isDefaultModifyPwd) {
+          if(res.extra.isDefaultModifyPwd) {
             MessageBox.confirm('您的密码还是初始密码，请修改密码！',  '安全提示', {  confirmButtonText: '确定',  cancelButtonText: '取消',  type: 'warning' }).then(() => {
               router.push({ name: 'Profile', params: { activeTab: 'resetPwd' } })
             }).catch(() => {})
           }
           /* 过期密码提示 */
-          if(!res.isDefaultModifyPwd && res.isPasswordExpired) {
+          if(!res.extra.isDefaultModifyPwd && res.extra.isPasswordExpired) {
             MessageBox.confirm('您的密码已过期，请尽快修改密码！',  '安全提示', {  confirmButtonText: '确定',  cancelButtonText: '取消',  type: 'warning' }).then(() => {
               router.push({ name: 'Profile', params: { activeTab: 'resetPwd' } })
             }).catch(() => {})
           }
-          resolve(res)
+          resolve(res.extra)
         }).catch(error => {
           reject(error)
         })
