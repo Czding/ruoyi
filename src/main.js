@@ -13,6 +13,7 @@ import router from './router'
 import directive from './directive' // directive
 import plugins from './plugins' // plugins
 import { download } from '@/utils/request'
+import ENUM from '@/exports/enums/index'
 
 import './assets/icons' // icon
 import './permission' // permission control
@@ -79,6 +80,10 @@ Vue.config.productionTip = false
 
 // 注册全局组件
 globalComponentsRegister()
+
+ENUM.prepare().then(() => {
+  Vue.prototype.$enum = ENUM
+})
 
 new Vue({
   el: '#app',

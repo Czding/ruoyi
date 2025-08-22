@@ -173,6 +173,7 @@
           </el-col>
         </el-row>
       </el-form>
+      <d-form v-model="form2" :config="formConfig" direction="line" label-width="80px"></d-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -314,7 +315,24 @@ export default {
             trigger: "blur"
           }
         ]
+      },
+      form2: {
+        userName: ''
       }
+    }
+  },
+  computed: {
+    formConfig () {
+      return [
+        {
+          component: 'el-select',
+          label: '人员属性',
+          prop: 'userProperty',
+          options: [],
+          required: true,
+          span: 12
+        }
+      ]
     }
   },
   watch: {

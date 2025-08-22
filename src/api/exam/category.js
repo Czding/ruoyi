@@ -35,3 +35,12 @@ export const categoryDeleteById = (params) => {
     params
   })
 }
+
+// 删除分类
+export const categorySelectList = (data) => {
+  return request({
+    url: '/work/category/selectList',
+    method: 'post',
+    data
+  })
+}
