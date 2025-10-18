@@ -66,4 +66,9 @@ export const S_COURSE_TYPE = [
   { label: '题库课程', value: '2' }
 ]
 
+export const S_STATUS = [
+  { label: '正常', value: '0' },
+  { label: '停用', value: '1' }
+]
+
 
