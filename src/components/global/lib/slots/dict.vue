@@ -30,10 +30,10 @@ export default {
   computed: {
     dictText () {
       if (Array.isArray(this.row[this.prop])) {
-        const result = this.$DDWL.enum.getLabels(this.code, this.row[this.prop])
+        const result = this.$enum.getLabels(this.code, this.row[this.prop])
         return result?.length ? result.join(',') : ''
       } else {
-        return this.$DDWL.enum.getLabel(this.code, this.row[this.prop])
+        return this.$enum.getLabel(this.code, this.row[this.prop])
       }
     }
   },

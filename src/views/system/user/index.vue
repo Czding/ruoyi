@@ -95,73 +95,65 @@
     </el-row>
 
     <!-- 添加或修改用户配置对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="900px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-          <el-col :span="12">
+        <el-row :gutter="16">
+          <el-col :span="8">
             <el-form-item label="用户昵称" prop="nickName">
               <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="enabledDeptOptions" :show-count="true" placeholder="请选择归属部门" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
               <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
               <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="用户性别">
               <el-select v-model="form.sex" placeholder="请选择性别">
                 <el-option v-for="dict in dict.type.sys_user_sex" :key="dict.value" :label="dict.label" :value="dict.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
+            <el-form-item label="手机号码" prop="phonenumber">
+              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="邮箱" prop="email">
+              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="状态">
               <el-radio-group v-model="form.status">
                 <el-radio v-for="dict in dict.type.sys_normal_disable" :key="dict.value" :label="dict.value">{{ dict.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="岗位">
               <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
                 <el-option v-for="item in postOptions" :key="item.postId" :label="item.postName" :value="item.postId" :disabled="item.status == 1" ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="8">
             <el-form-item label="角色">
               <el-select v-model="form.roleIds" multiple placeholder="请选择角色">
                 <el-option v-for="item in roleOptions" :key="item.roleId" :label="item.roleName" :value="item.roleId" :disabled="item.status == 1"></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="归属部门" prop="deptId">
+              <treeselect v-model="form.deptId" :options="enabledDeptOptions" :show-count="true" placeholder="请选择归属部门" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -173,7 +165,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <d-form v-model="form2" :config="formConfig" direction="line" label-width="80px"></d-form>
+      <d-form v-model="form2" ref="form2" :config="formConfig" direction="line" label-width="80px"></d-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
@@ -206,6 +198,7 @@ import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUs
 import { getToken } from "@/utils/auth"
 import Treeselect from "@riophae/vue-treeselect"
 import "@riophae/vue-treeselect/dist/vue-treeselect.css"
+import r from "highlight.js/lib/languages/r"
 import { Splitpanes, Pane } from "splitpanes"
 import "splitpanes/dist/splitpanes.css"
 
@@ -317,7 +310,20 @@ export default {
         ]
       },
       form2: {
-        userName: ''
+        instructorType: '',
+        cardType: '',
+        cardNumber: '',
+        country: '',
+        nation: '',
+        birth: '',
+        address: '',
+        postalCode: '',
+        studyTime: '',
+        image1: [],
+        image2: [],
+        image3: [],
+        image4: [],
+
       }
     }
   },
@@ -328,9 +334,124 @@ export default {
           component: 'el-select',
           label: '人员属性',
           prop: 'userProperty',
-          options: [],
+          options: this.$enum.S_USER_PROPERTY,
           required: true,
-          span: 12
+          span: 8
+        },
+        {
+          component: 'el-select',
+          label: '教员类型',
+          prop: 'instructorType',
+          options: this.$enum.S_INSTRUCTOR_TYPE,
+          hide: !this.form2.userProperty || this.form2.userProperty !== '2',
+          span: 8,
+          required: true
+        },
+        {
+          component: 'el-select',
+          label: '证件类型',
+          prop: 'cardType',
+          options: this.$enum.S_CARD_TYPE,
+          hide: !this.form2.userProperty || ['1', '4'].includes(this.form2.userProperty),
+          span: 8
+        },
+        {
+          component: 'el-input',
+          label: '证件号码',
+          prop: 'cardNumber',
+          hide: !this.form2.userProperty || ['1', '4'].includes(this.form2.userProperty),
+          span: 8
+        },
+        {
+          component: 'el-select',
+          label: '国籍',
+          prop: 'country',
+          options: this.$enum.S_COUNTRY,
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+          span: 8
+        },
+        {
+          component: 'el-select',
+          label: '民族',
+          prop: 'nation',
+          options: this.$enum.S_NATION,
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+          span: 8
+        },
+        {
+          component: 'el-date-picker',
+          label: '出生日期',
+          prop: 'birth',
+          props: {
+            type: 'date',
+            valueFormat: 'yyyy-MM-dd',
+            format: 'yyyy-MM-dd'
+          },
+          width: '100%',
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+          span: 8
+        },
+        {
+          component: 'el-date-picker',
+          label: '入学时间',
+          prop: 'studyTime',
+          props: {
+            type: 'date',
+            valueFormat: 'yyyy-MM-dd',
+            format: 'yyyy-MM-dd'
+          },
+          width: '100%',
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+          span: 8
+        },
+        {
+          component: 'el-input',
+          label: '邮政编码',
+          prop: 'postalCode',
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+          span: 8
+        },
+        {
+          component: 'el-input',
+          label: '地址',
+          prop: 'address',
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+        },
+        {
+          component: 'd-upload',
+          label: '身份证',
+          prop: 'image1',
+          props: {
+            limitType: ['png','jpg','jpeg','bmp','webp']
+          },
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3'
+        },
+        {
+          component: 'd-upload',
+          label: '一寸照',
+          prop: 'image2',
+          props: {
+            limitType: ['png','jpg','jpeg','bmp','webp']
+          },
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3'
+        },
+        {
+          component: 'd-upload',
+          label: '身体情况说明',
+          prop: 'image3',
+          props: {
+            limitType: ['png','jpg','jpeg','bmp','webp']
+          },
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
+        },
+        {
+          component: 'd-upload',
+          label: '无犯罪记录说明',
+          prop: 'image4',
+          props: {
+            limitType: ['png','jpg','jpeg','bmp','webp']
+          },
+          hide: !this.form2.userProperty || this.form2.userProperty !== '3',
         }
       ]
     }
@@ -420,7 +541,24 @@ export default {
         postIds: [],
         roleIds: []
       }
+      this.form2 = {
+        instructorType: '',
+        cardType: '',
+        cardNumber: '',
+        country: '',
+        nation: '',
+        birth: '',
+        address: '',
+        postalCode: '',
+        studyTime: '',
+        image1: [],
+        image2: [],
+        image3: [],
+        image4: [],
+      }
+
       this.resetForm("form")
+      this.$refs.form2?.resetFields()
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -456,21 +594,29 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset()
-      getUser().then(response => {
-        this.postOptions = response.posts
-        this.roleOptions = response.roles
-        this.open = true
-        this.title = "添加用户"
-        this.form.password = this.initPassword
+      this.open = true
+      this.$nextTick(() => {
+        this.reset()
+        getUser().then(response => {
+          response = response.extra || response
+          this.postOptions = response.posts
+          this.roleOptions = response.roles
+          this.title = "添加用户"
+          this.form.password = this.initPassword
+          console.log(123, this.form2)
+        })
       })
+     
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset()
+      this.open = true
       const userId = row.userId || this.ids
       getUser(userId).then(response => {
+        response = response.extra || response
         this.form = response.data
+        this.form2 = response.data
         this.postOptions = response.posts
         this.roleOptions = response.roles
         this.$set(this.form, "postIds", response.postIds)
@@ -478,6 +624,11 @@ export default {
         this.open = true
         this.title = "修改用户"
         this.form.password = ""
+        this.$set(this.form, 'image1', (response.data.fileList || []).filter(item => item.fileProperty === '1'))
+        this.$set(this.form, 'image2', (response.data.fileList || []).filter(item => item.fileProperty === '2'))
+        this.$set(this.form, 'image3', (response.data.fileList || []).filter(item => item.fileProperty === '3'))
+        this.$set(this.form, 'image4', (response.data.fileList || []).filter(item => item.fileProperty === '4'))
+        console.log(444, this.form2)
       })
     },
     /** 重置密码按钮操作 */
@@ -505,24 +656,39 @@ export default {
       this.$router.push("/system/user-auth/role/" + userId)
     },
     /** 提交按钮 */
-    submitForm: function() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          if (this.form.userId != undefined) {
-            updateUser(this.form).then(response => {
+    async submitForm () {
+      await Promise.all([
+        this.$refs["form"].validate(),
+        this.$refs["form2"].validate()
+      ])
+      const params = {
+        ...this.form,
+        ...this.form2
+      }
+      params.fileList = [
+        ...this.form2.image1.map(item => ({ ...item, fileProperty: '1'})),
+        ...this.form2.image2.map(item => ({ ...item, fileProperty: '2'})),
+        ...this.form2.image3.map(item => ({ ...item, fileProperty: '3'})),
+        ...this.form2.image4.map(item => ({ ...item, fileProperty: '4'}))
+      ]
+      delete params.image1
+      delete params.image2
+      delete params.image3
+      delete params.image4
+      console.log(params, this.form, this.form2)
+      if (this.form.userId != undefined) {
+            updateUser(params).then(response => {
               this.$modal.msgSuccess("修改成功")
               this.open = false
               this.getList()
             })
           } else {
-            addUser(this.form).then(response => {
+            addUser(params).then(response => {
               this.$modal.msgSuccess("新增成功")
               this.open = false
               this.getList()
             })
           }
-        }
-      })
     },
     /** 删除按钮操作 */
     handleDelete(row) {

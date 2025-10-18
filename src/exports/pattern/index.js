@@ -17,5 +17,7 @@ export default {
   // 只包括数字、字母、下划线
   COMMON_CODE_REGX: /^[5A-Za-z0-9-\\_]+$/,
   // 字母和数字
-  LETTER_NUMBER_REGX: /^[A-Za-z0-9]+$/
+  LETTER_NUMBER_REGX: /^[A-Za-z0-9]+$/,
+  // 0-100的数字
+  RATE_NUMBER_REGX: /^(100(\.0+)?|([1-9]?[0-9]?(\.[0-9]+)?))$/
 }

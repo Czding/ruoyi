@@ -85,6 +85,7 @@ export default {
   methods: {
     getUser() {
       getUserProfile().then(response => {
+        response = response.extra || response
         this.user = response.data
         this.roleGroup = response.roleGroup
         this.postGroup = response.postGroup

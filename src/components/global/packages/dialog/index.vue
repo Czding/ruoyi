@@ -20,13 +20,14 @@
       <div v-if="showButton" class="ar">
         <el-button
           type="primary"
+          size="mini"
           :icon="submitButtonIcon"
           :loading="loading"
           @click="submit"
         >
           {{ submitButtonText }}
         </el-button>
-        <el-button @click="cancel">
+        <el-button size="mini" @click="cancel">
           {{ cancelButtonText }}
         </el-button>
       </div>

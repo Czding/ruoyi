@@ -382,6 +382,8 @@ export default {
     /** 根据角色ID查询菜单树结构 */
     getRoleMenuTreeselect(roleId) {
       return roleMenuTreeselect(roleId).then(response => {
+        response = response.extra || response
+
         this.menuOptions = response.menus
         return response
       })

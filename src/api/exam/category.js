@@ -36,11 +36,33 @@ export const categoryDeleteById = (params) => {
   })
 }
 
-// 删除分类
+// 题目列表
 export const categorySelectList = (data) => {
   return request({
     url: '/work/category/selectList',
     method: 'post',
+    data
+  })
+}
+
+export const upload = (data) =>
+  request({
+    url: '/work/oss/upload',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data,
+  })
+
+// 导入
+export const categoryImport = (data) => {
+  return request({
+    url: '/work/category/import',
+    method: 'post',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
     data
   })
 }

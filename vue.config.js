@@ -7,7 +7,7 @@ function resolve(dir) {
 
 const CompressionPlugin = require('compression-webpack-plugin')
 
-const name = process.env.VUE_APP_TITLE || '若依管理系统' // 网页标题
+const name = process.env.VUE_APP_TITLE || '领信启航' // 网页标题
 
 const baseUrl = 'http://localhost:8080' // 后端接口
 
@@ -36,14 +36,19 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://47.99.39.250:8001',
+        target: 'http://47.99.204.6:8001',
         changeOrigin: true
       },
       // springdoc proxy
       '^/v3/api-docs/(.*)': {
         target: baseUrl,
         changeOrigin: true
+      },
+      '/file': {
+        target: 'http://47.99.204.6',
+        changeOrigin: true
       }
+
     },
     disableHostCheck: true
   },

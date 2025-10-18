@@ -435,9 +435,12 @@ export default {
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
+      console.log(1)
       this.reset()
       this.getTreeselect()
+      console.log(2)
       getMenu(row.menuId).then(response => {
+        response = response.extra || response
         this.form = response.data
         this.open = true
         this.title = "修改菜单"

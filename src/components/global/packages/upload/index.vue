@@ -15,7 +15,7 @@
         <el-image
           v-if="_hasFileType(imgExts, file)"
           class="el-upload-list__item-thumbnail"
-          :src="file.fileUrl"
+          :src="file.filePath"
         />
         <el-image
           v-if="_hasFileType(videoExts, file)"
@@ -86,7 +86,7 @@
       >
         <a
           class="el-upload-list__item-name"
-          :href="file.fileUrl"
+          :href="file.filePath"
           :download="file.name || file.fileName"
         >
           <i class="el-icon-document" />
@@ -125,6 +125,8 @@ import { get } from 'lodash'
 import videoBg from '../../assets/video-play.jpeg'
 import { convertBytesToSize } from '@/utils'
 import FilePreview from '../file-preview/index.vue'
+import { upload } from '@/api/exam/category.js'
+
 
 const imgExts = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'svg']
 const fileExts = ['doc', 'docx', 'pdf']
@@ -147,7 +149,7 @@ export default {
       type: Number
     },
     limitSize: {
-      default: 5,
+      default: 20,
       type: Number
     },
     imgExts: {
@@ -221,7 +223,9 @@ export default {
       if (!item.fileExt) {
         return false
       }
-      return files.includes(item.fileExt.toLowerCase())
+
+      return files.includes(item.fileExt.toLowerCase().replace('.', ''))
+
     },
     _calcLimitType (limitType) {
       if (typeof limitType === 'string') return limitType.split(',').map(l => l.trim())
@@ -235,13 +239,13 @@ export default {
         name,
         fileExt,
         url,
-        fileUrl: url
+        filePath: url
       }
     },
     async uploadRequest (data) {
       const formData = new FormData()
       formData.append('file', data.file)
-      const res = await this.$DDWL.upload(formData)
+      const res = await upload(formData)
       return res
     },
     beforeUpload (file) {
@@ -263,6 +267,7 @@ export default {
       }
     },
     uploadSuccess (res, file) {
+      file.response.data.filePath = file.response.data.url
       if (res.code === 200) {
         this.value = this.value.concat({
           ...file,
@@ -279,9 +284,7 @@ export default {
       console.log('upload error', res)
     },
     uploadRemove (file) {
-      this.value = this.value.filter(item => item.fileUrl !== file.fileUrl)
-      // const index = this.value.findIndex((item) => item.fileUrl === file.fileUrl)
-      // index > -1 && this.value.splice(index, 1)
+      this.value = this.value.filter(item => item.filePath !== file.filePath)
       this.$parent.$emit('el.form.change')
     },
     picturePreview (index) {
@@ -294,7 +297,9 @@ export default {
 
 <style lang='scss' scoped>
 .custom-upload-files-content {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 80px;
   height: 80px;
   text-align: center;
@@ -310,7 +315,15 @@ export default {
 }
 .custom-upload-files {
   display: inline-block;
+  width: 80px;
+  height: 80px;
+  ::v-deep .el-upload--picture-card {
+    width: 80px;
+    height: 80px;
+  }
 }
+
+
 .custom-upload-files-limit {
   ::v-deep .el-upload--picture-card {
     display: none;

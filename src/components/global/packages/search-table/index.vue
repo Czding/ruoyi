@@ -1,7 +1,7 @@
 <!-- 查询表格 -->
 <template>
   <div class="table-search-wrap">
-    <search-form v-model="form" :config="config.searchConfig" :search-data="searchData" v-bind="$attrs"
+    <search-form v-if="config.searchConfig.length" v-model="form" :config="config.searchConfig" :search-data="searchData" v-bind="$attrs"
       v-on="$listeners">
       <slot />
     </search-form>

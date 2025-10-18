@@ -82,6 +82,7 @@ Vue.config.productionTip = false
 globalComponentsRegister()
 
 ENUM.prepare().then(() => {
+  console.log(1)
   Vue.prototype.$enum = ENUM
 })
 

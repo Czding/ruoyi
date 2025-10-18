@@ -71,6 +71,8 @@ export default {
     if (userId) {
       this.loading = true
       getAuthRole(userId).then((response) => {
+        response = response.extra || response
+
         this.form = response.user
         this.roles = response.roles
         this.total = this.roles.length

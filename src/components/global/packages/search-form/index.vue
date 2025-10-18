@@ -1,52 +1,27 @@
 <!-- 搜索组件 -->
 <template>
   <div class="d-search-form">
-    <el-row class="flex-wrap" :gutter="gutter">
-      <el-col
-        v-for="(item, index) in list"
-        v-show="showCol(index)"
-        :key="item.prop"
-        :span="item.span || Math.floor(24 / cell)"
-        class="col-item"
-      >
-        <div class="search-item">
+    <div class="d-search-form-content">
+      <div class="flex">
+        <div class="search-item" v-for="(item, index) in list" :key="item.prop">
           <div class="search-item-label">
             {{ item.label }}
           </div>
-          <form-item v-model="form[item.prop]" :config="item" />
+          <form-item style="width: 240px" v-model="form[item.prop]" :config="item" />
         </div>
-      </el-col>
-      <el-col :span="hiddenIndex === list.length || expend ? emptySpan : 0" style="height: 68px;">
-        <span />
-      </el-col>
-      <el-col v-if="hasSlot && expend && !suffixSlot" :span="24 - submitSpan" class="mb16">
-        <slot />
-      </el-col>
-      <el-col :span="submitSpan">
-        <div
-          :style="{
-            'margin-top': hasSlot && expend && !suffixSlot ? '0px' : '24px'
-          }"
-          class="d-search-form-btn"
-        >
-          <el-button type="primary" :disabled="searchLoading" @click="search">
-            查询
-          </el-button>
-          <el-button :disabled="searchLoading" @click="reset">
-            重置
-          </el-button>
-          <el-button
-            v-if="list.length > hiddenIndex"
-            class="expend-btn"
-            :class="`el-icon-arrow-${expend ? 'up' : 'down'}`"
-            @click="changeStatus"
-          />
-        </div>
-      </el-col>
-      <el-col v-if="hasSlot && (!expend || suffixSlot)" :span="20" class="mb16">
-        <slot />
-      </el-col>
-    </el-row>
+      </div>
+      <div>
+        <el-button type="primary" :disabled="searchLoading" icon="el-icon-search" size="mini" @click="search">
+          搜索
+        </el-button>
+        <el-button :disabled="searchLoading" icon="el-icon-refresh" size="mini" @click="reset">
+          重置
+        </el-button>
+      </div>
+    </div>
+    <div class="mb16">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -81,7 +56,7 @@ export default {
       type: Number
     },
     value: {
-      default: () => {},
+      default: () => { },
       type: Object
     },
     searchData: {
@@ -93,7 +68,7 @@ export default {
       type: Number
     }
   },
-  data () {
+  data() {
     return {
       list: [],
       hiddenIndex: 0,
@@ -107,20 +82,20 @@ export default {
   },
   computed: {
     form: {
-      get () {
+      get() {
         return this.value
       },
-      set (value) {
+      set(value) {
         this.$emit('change', value)
       }
     },
-    submitSpan () {
+    submitSpan() {
       return this.buttonSpan || 24 / this.cell
     },
-    spanList () {
+    spanList() {
       return this.list.map(item => item.span || Math.floor(24 / this.cell)) || []
     },
-    showCol () {
+    showCol() {
       return (index) => {
         return this.expend || index < this.hiddenIndex
       }
@@ -128,14 +103,14 @@ export default {
   },
   watch: {
     config: {
-      handler () {
+      handler() {
         this.list = this.config.filter(item => !item.hidden)
       },
       deep: true,
       immediate: true
     },
     spanList: {
-      handler (val, oldVal) {
+      handler(val, oldVal) {
         if (!val.length || JSON.stringify(val) === JSON.stringify(oldVal)) {
           return
         }
@@ -145,7 +120,7 @@ export default {
       immediate: true
     }
   },
-  created () {
+  created() {
     initForm = cloneDeep(this.value)
     this.$nextTick(() => {
       this.hasSlot = !!(this.$slots.default && this.$slots.default.length)
@@ -156,7 +131,7 @@ export default {
     /**
      * @description: 查询
      */
-    async search () {
+    async search() {
       this.$emit('search')
       if (this.searchData) {
         try {
@@ -171,7 +146,7 @@ export default {
     /**
      * @description: 重置
      */
-    async reset () {
+    async reset() {
       this.form = cloneDeep(initForm)
       this.$emit('search')
       if (this.searchData) {
@@ -183,11 +158,11 @@ export default {
     /**
      * @description: 展开/收起
      */
-    changeStatus () {
+    changeStatus() {
       this.expend = !this.expend
       this.$emit('expand-change', this.expend)
     },
-    calcSpan () {
+    calcSpan() {
       let hiddenIndex = 1
       const total = this.spanList.length ? this.spanList.reduce((a, b, index) => {
         const sum = a + b
@@ -222,34 +197,45 @@ export default {
 
 <style lang="scss" scoped>
 .d-search-form {
-  margin-bottom: 4px;
-  .col-item {
-    align-items: end;
+  .d-search-form-content {
+    display: flex;
+    margin-bottom: 16px;
+    width: 100%;
   }
+
   .el-select {
     width: 100%;
+
     .el-input_inner {
       height: 32px;
     }
   }
+
   &-btn {
     text-align: right;
     margin-bottom: 16px;
   }
+
   &-overflow {
     margin-top: 24px;
   }
+
   .expend-btn {
     padding: 4px 8px;
   }
 }
+
 .search-item {
-  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+
   &-label {
-    margin-bottom: 4px;
-    font-weight: 400;
-    color: #333333;
+    font-size: 14px;
+    color: #606266;
+    font-weight: 700;
+    margin-right: 8px;
   }
+
   ::v-deep .el-input__inner {
     height: 32px !important;
   }
